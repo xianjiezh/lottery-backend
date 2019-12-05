@@ -34,7 +34,9 @@ for (let i = 0; i < 6; i++) {
   })
 }
 
-
+setTimeout(() => {
+  log(currentPrizeCount)
+}, 1000);
 
 const firstMax1 = 50
 const secondMax1 = 250
@@ -160,6 +162,13 @@ app.post('/info', async (req, res) => {
       }
       sql('INSERT INTO lottery SET ?', p)
         .then(result => {
+          if (prizeLevel <= 0) {
+            res.json({
+              success: false,
+              message: '未中奖'
+            })
+            return
+          }
           currentPrizeCount[prizeLevel - 1] = currentPrizeCount[prizeLevel - 1] + 1
           res.json({
             success: true,
